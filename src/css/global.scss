@@ -1,0 +1,158 @@
+$color-1: rgb(170, 170, 170);
+
+@font-face {
+    font-family: Vazir;
+    src: url("/src/fonts/Vazir.ttf");
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+body {
+    height: 100dvh;
+    font-family: Vazir !important;
+}
+
+header {
+    padding: 1em 2em;
+    position: fixed;
+    top: 0;
+    background-color: white;
+    border-radius: 100rem;
+    top: 2rem;
+    right: 2rem;
+
+    ul {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        font-size: 1.25rem;
+        font-weight: bold;
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row-reverse;
+            gap: 0.5rem;
+            cursor: pointer;
+            svg {
+                font-size: 1.5rem;
+            }
+        }
+    }
+}
+
+button {
+    all: unset;
+}
+
+main {
+    min-height: 100dvh;
+    padding-top: 7em;
+}
+
+.main-page {
+}
+
+.auth-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url("/public/images/2.jpg");
+    background-size: cover;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2rem;
+        background-color: rgb(170, 170, 170);
+        backdrop-filter: blur(20px);
+        padding: 2em;
+        border-radius: 1rem;
+        color: white;
+        h1 {
+            display: flex;
+            flex-direction: column;
+            max-width: 17ch;
+            font-weight: normal;
+            span {
+                font-size: 3rem;
+                line-height: 1;
+                font-weight: bold;
+            }
+        }
+        .form-body {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            margin-top: 2rem;
+            gap: 1rem;
+            label {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                span {
+                    width: 6ch;
+                }
+                input {
+                    all: unset;
+                    border-radius: 100rem;
+                    padding: 0.25em 1em;
+                    background-color: white;
+                    color: black;
+                }
+            }
+        }
+        .form-buttons {
+            margin-top: 1.5rem;
+            button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.25rem;
+                svg {
+                    font-size: 1.5rem;
+                }
+                background-color: green;
+                color: white;
+                padding: 0.5em;
+                width: 10ch;
+                border-radius: 100rem;
+            }
+        }
+    }
+}
+
+.admin-panel-page {
+
+   
+    .all-simcards-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        h1 {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            button {
+                font-size: 1.25rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                background-color: green;
+                color: white;
+                padding: 0.25em 1em;
+                border-radius: 100rem;
+                cursor: pointer;
+            }
+        }
+    }
+}
