@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import ResponsivePagination from 'react-responsive-pagination';
 
-import { deleteF, post, put, useFetch } from '../../../libs/fetcher'
-import { ADMIN_PANEL } from '../../../constants/API_URLS'
-import { formatDate } from '../../../libs/timeFormater'
+import { deleteF, post, put, useFetch } from '../../libs/fetcher'
+import { ADMIN_PANEL } from '../../constants/API_URLS'
+import { formatDate } from '../../libs/timeFormater'
 import Swal from "sweetalert2"
-import { showError, showSuccess } from "../../../libs/alertHandler"
+import { showError, showSuccess } from "../../libs/alertHandler"
 
 
-import Table from "../../../components/table/Table"
-import ItemHeader from "../../../components/table/components/ItemHeader"
-import Property from "../../../components/table/components/Property"
-import Row from "../../../components/table/components/Row"
-import TableBody from "../../../components/table/components/TableBody"
-import TableHeader from "../../../components/table/components/TableHeader"
-import TablePaginations from "../../../components/table/components/TablePaginations"
+import Table from "../../components/table/Table"
+import ItemHeader from "../../components/table/components/ItemHeader"
+import Property from "../../components/table/components/Property"
+import Row from "../../components/table/components/Row"
+import TableBody from "../../components/table/components/TableBody"
+import TableHeader from "../../components/table/components/TableHeader"
+import TablePaginations from "../../components/table/components/TablePaginations"
 import { Icon } from '@iconify/react';
 
 
@@ -110,14 +110,11 @@ export default function AllSimCards() {
 
   }
 
-
-
   const simCardUsageOptions = [
     { value: 'new', label: 'جدید' },
     { value: 'used', label: 'مصرف شده' },
     { value: 'semi used', label: 'نسبتا جدید' }
   ]
-
 
   const simCardsOperatorName = [
     { value: 'Irancell', label: 'ایرانسل' },
@@ -125,14 +122,8 @@ export default function AllSimCards() {
     { value: 'Rightel', label: 'رایتل' }
   ]
 
-
-
-
-
-
-
   return (
-    <section className='all-simcards-section'>
+    <main className='admin-panel-all-simcards'>
 
       <h1>
         تمامیه سیم کارت های موجود
@@ -592,6 +583,6 @@ export default function AllSimCards() {
 
       </div>
 
-    </section>
+    </main>
   )
 }

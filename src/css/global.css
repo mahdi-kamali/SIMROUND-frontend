@@ -123,18 +123,41 @@ main {
   font-size: 1.5rem;
 }
 
-.admin-panel-page .all-simcards-section {
+.admin-panel-all-simcards {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
 }
-.admin-panel-page .all-simcards-section h1 {
+.admin-panel-all-simcards h1 {
   display: flex;
   align-items: center;
   gap: 2rem;
 }
-.admin-panel-page .all-simcards-section h1 button {
+.admin-panel-all-simcards h1 button {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: green;
+  color: white;
+  padding: 0.25em 1em;
+  border-radius: 100rem;
+  cursor: pointer;
+}
+
+.admin-panel-buys {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+.admin-panel-buys h1 {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.admin-panel-buys h1 button {
   font-size: 1.25rem;
   display: flex;
   align-items: center;

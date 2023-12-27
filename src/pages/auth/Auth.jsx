@@ -21,7 +21,7 @@ export default function Auth() {
                 showSuccess("عملیات موفق بود !", resp.message)
                 const token = resp.token
                 sessionStorage.setItem("token", token)
-                navigator("/admin/panel")
+                navigator("/admin/panel/sim-cards")
             })
             .catch(err => {
                 showError("خطایی وجود دارد !", err)
@@ -36,7 +36,7 @@ export default function Auth() {
         if (token) {
             post(AUTH.INFO.POST, {})
                 .then(resp => {
-                    navigator("/admin/panel")
+                    navigator("/admin/panel/sim-cards")
                 })
                 .catch(err => {
                     sessionStorage.removeItem("token")

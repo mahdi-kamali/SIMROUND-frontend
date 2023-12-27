@@ -14,10 +14,21 @@ export default function Header() {
             link: "/"
         },
         {
-            title: "پنل مدیریت",
+            title: "سیمکارت ها",
             svg: <Icon icon="eos-icons:admin" />,
-            link: "/auth/"
+            link: "/admin/panel/sim-cards"
         },
+        {
+            title: "فروش ها",
+            svg: <Icon icon="eos-icons:admin" />,
+            link: "/admin/panel/sales"
+        },
+        {
+            title: "خرید ها",
+            svg: <Icon icon="eos-icons:admin" />,
+            link: "/admin/panel/buys"
+        },
+
 
     ]
 

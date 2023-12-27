@@ -13,7 +13,9 @@ import MainPage from "./pages/main-page/HomePage"
 import Header from "./components/primary/Header";
 import Footer from "./components/primary/Footer";
 import Auth from "./pages/auth/Auth";
-import AdminPanel from "./pages/admin-panel/AdminPanel"
+import AllSimCards from "./pages/admin-panel/AllSimCards";
+import BuyOrders from "./pages/admin-panel/BuyOrders";
+import SellOrders from "./pages/admin-panel/SellOrders";
 
 function App() {
   return (
@@ -25,7 +27,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Auth />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/admin/panel" element={<AdminPanel />} />
+          <Route path="/admin/panel/sim-cards" element={<AllSimCards />} />
+          <Route path="/admin/panel/sales" element={<SellOrders />} />
+          <Route path="/admin/panel/Buys" element={<BuyOrders />} />
           <Route path="*" element={<h1>صفحه پیدا نشد.</h1>} />
         </Routes>
         <Footer />
