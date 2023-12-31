@@ -5,6 +5,7 @@
   flex-wrap: wrap;
   width: 90%;
   margin: 0 auto;
+  overflow: auto;
 }
 .table .table-header {
   display: grid;

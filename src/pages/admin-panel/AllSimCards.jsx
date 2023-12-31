@@ -31,22 +31,130 @@ export default function AllSimCards() {
   const [isTableEditing, setIsTableEditing] = useState(false)
 
 
+  // const headersList = [
+  //   "شناسه",
+  //   "ارقام",
+  //   "هزینه",
+  //   "کارکرد سیمکارت",
+  //   "نام اپراتور",
+  //   "اقصادی",
+  //   "پیش",
+  //   "وضعیت",
+  //   "ویژه",
+  //   "لیبل",
+  //   "حالت خوانش",
+  //   "توضیحات",
+  //   "فروشنده",
+  //   "تاریخ ایجاد",
+  //   "کنترل ها",
+  //   "شمارنده"
+  // ]
+
+
   const headersList = [
-    "شناسه",
-    "ارقام",
-    "هزینه",
-    "کارکرد سیمکارت",
-    "نام اپراتور",
-    "اقصادی",
-    "پیش",
-    "وضعیت",
-    "فروشنده",
-    "تاریخ ایجاد",
-    "کنترل ها",
-    "شمارنده"
+    {
+      "type": "readOnly",
+      "label": "شناسه",
+      "inputName": "_id",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "شماره تلفن",
+      "inputName": "numbers",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "قیمت",
+      "inputName": "price",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "حداکثر تعداد قسط",
+      "inputName": "maxGhestCount",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "پیش پرداخت",
+      "inputName": "pish",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "برچسب",
+      "inputName": "label",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "توضیحات",
+      "inputName": "description",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "نوع خواندن",
+      "inputName": "readingType",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "اپراتور",
+      "inputName": "operatorName",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "وضعیت استفاده",
+      "inputName": "simCardUsageState",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "تاریخ فعال‌سازی",
+      "inputName": "activationDate",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "فعال شده",
+      "inputName": "isActivated",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "قسطی",
+      "inputName": "ghesti",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "وضعیت",
+      "inputName": "vaziat",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "ویژه",
+      "inputName": "isVIP",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "شناسه فروشنده",
+      "inputName": "sellerID",
+      "inputType": "string"
+    },
+    {
+      "type": "readOnly",
+      "label": "تاریخ ایجاد",
+      "inputName": "createdAt",
+      "inputType": "string"
+    }
   ]
-
-
 
 
 
@@ -143,19 +251,22 @@ export default function AllSimCards() {
         <Table
 
           columnsStyle={
-            "6rem 15ch 20ch 9rem 9rem 4rem 7rem 4rem 6rem 6rem 8rem  1fr "}>
+            `6rem 15ch 20ch 9rem 10rem 
+             15rem 15rem 6rem 10rem 10rem
+             10rem 6rem 4rem 6rem 6rem 
+             8rem  10rem `}>
+
+
 
 
           <TableHeader>
-            {
-              headersList.map((record, index) => {
-                return <ItemHeader key={index}>
-                  {record}
-
-                </ItemHeader>
-              })
-            }
+            {headersList.map((item, index) => {
+              return <ItemHeader key={index}>
+                {item.label}
+              </ItemHeader>
+            })}
           </TableHeader>
+
 
 
 
@@ -330,6 +441,35 @@ export default function AllSimCards() {
                   onSubmit={handleEditSubmit}  >
 
                   <Property >
+                    <div className="property-header">
+                      {headersList[0].label}
+                    </div>
+                    <div className="property-body">
+                      {record[headersList[0].inputName]}
+                      <input
+                        type="hidden"
+                        name='simCardID'
+                        defaultValue={record._id} />
+                    </div>
+
+                  </Property>
+
+
+                  <Property >
+                    <div className="property-header">
+                      {headersList[1].label}
+                    </div>
+                    <div className="property-body">
+                      {record._id}
+                      <input
+                        type="hidden"
+                        name='simCardID'
+                        defaultValue={record._id} />
+                    </div>
+
+                  </Property>
+
+                  {/* <Property >
                     <div className="property-header">
                       {headersList[0]}
                     </div>
@@ -558,7 +698,7 @@ export default function AllSimCards() {
                         {index}
                       </h2>
                     </div>
-                  </Property>
+                  </Property> */}
 
                 </Row>
               })

@@ -53,6 +53,7 @@ button {
 main {
     min-height: 100dvh;
     padding-top: 7em;
+    overflow: hidden;
 }
 
 .main-page {
@@ -134,13 +135,13 @@ main {
 .admin-panel-all-simcards {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 2rem;
     
     h1 {
         display: flex;
         align-items: center;
         gap: 2rem;
+        align-self: center;
         button {
             font-size: 1.25rem;
             display: flex;

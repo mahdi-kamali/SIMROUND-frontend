@@ -22,6 +22,7 @@ $panel-color-6: #dc3545;
     flex-wrap: wrap;
     width: 90%;
     margin: 0 auto;
+    overflow: auto;
 
     .table-header {
         display: grid;
