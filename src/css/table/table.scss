@@ -132,11 +132,10 @@ $panel-color-6: #dc3545;
 
                 input[type="text"] , input[type="number"] {
                     all: unset;
-                    width: 100%;
+                    width: 80%;
                     border-radius: 0.5rem;
                     border: 1px solid rgba(0, 0, 0, 0.2) !important;
-                    padding: 0.25em 1em;
-                    padding-left: 0;
+                    padding: 0.25em 0.5em;
                     &:read-only {
                         border: none !important;
                     }
@@ -169,7 +168,7 @@ $panel-color-6: #dc3545;
                     z-index: 3;
                     .property-body {
                         background-color: $panel-color-3;
-                        padding: 0.5em 1em;
+                        padding: 0.25em 0em;
                         border-radius: 100rem;
                         color: white;
                     }

@@ -112,11 +112,10 @@
 }
 .table .table-body .row .property input[type=text], .table .table-body .row .property input[type=number] {
   all: unset;
-  width: 100%;
+  width: 80%;
   border-radius: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.2) !important;
-  padding: 0.25em 1em;
-  padding-left: 0;
+  padding: 0.25em 0.5em;
 }
 .table .table-body .row .property input[type=text]:-moz-read-only, .table .table-body .row .property input[type=number]:-moz-read-only {
   border: none !important;
@@ -150,7 +149,7 @@
 }
 .table .table-body .row .property:first-child .property-body {
   background-color: #0fac6d;
-  padding: 0.5em 1em;
+  padding: 0.25em 0em;
   border-radius: 100rem;
   color: white;
 }

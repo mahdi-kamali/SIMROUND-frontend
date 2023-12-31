@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-import { logFormData } from "../../../libs/formDataLogger"
 
 
 const Row = ({ children, onSubmit }) => {

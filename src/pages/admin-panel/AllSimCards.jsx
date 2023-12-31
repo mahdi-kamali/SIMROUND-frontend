@@ -19,6 +19,12 @@ import { Icon } from '@iconify/react';
 
 
 import Switch from "react-switch";
+import PropertyText from '../../components/table/components/PropertyText';
+import PropertyNumber from '../../components/table/components/PropertyNumber';
+import PropertySelect from '../../components/table/components/PropertySelect';
+import PropertyDate from '../../components/table/components/PropertyDate';
+import PropertyBoolean from '../../components/table/components/PropertyBoolean';
+import { logFormData } from '../../libs/formDataLogger';
 
 
 export default function AllSimCards() {
@@ -31,128 +37,158 @@ export default function AllSimCards() {
   const [isTableEditing, setIsTableEditing] = useState(false)
 
 
-  // const headersList = [
-  //   "شناسه",
-  //   "ارقام",
-  //   "هزینه",
-  //   "کارکرد سیمکارت",
-  //   "نام اپراتور",
-  //   "اقصادی",
-  //   "پیش",
-  //   "وضعیت",
-  //   "ویژه",
-  //   "لیبل",
-  //   "حالت خوانش",
-  //   "توضیحات",
-  //   "فروشنده",
-  //   "تاریخ ایجاد",
-  //   "کنترل ها",
-  //   "شمارنده"
-  // ]
-
-
   const headersList = [
     {
       "type": "readOnly",
       "label": "شناسه",
       "inputName": "_id",
-      "inputType": "string"
+      "inputType": "text"
     },
     {
-      "type": "readOnly",
+      "type": "editable",
       "label": "شماره تلفن",
       "inputName": "numbers",
-      "inputType": "string"
+      "inputType": "number"
     },
     {
-      "type": "readOnly",
+      "type": "editable",
       "label": "قیمت",
       "inputName": "price",
-      "inputType": "string"
+      "inputType": "number"
     },
     {
-      "type": "readOnly",
+      "type": "editable",
       "label": "حداکثر تعداد قسط",
       "inputName": "maxGhestCount",
-      "inputType": "string"
+      "inputType": "number"
     },
     {
-      "type": "readOnly",
+      "type": "editable",
       "label": "پیش پرداخت",
       "inputName": "pish",
-      "inputType": "string"
+      "inputType": "number"
     },
     {
-      "type": "readOnly",
+      "type": "editable",
       "label": "برچسب",
       "inputName": "label",
-      "inputType": "string"
+      "inputType": "text"
     },
     {
-      "type": "readOnly",
+      "type": "editable",
       "label": "توضیحات",
       "inputName": "description",
-      "inputType": "string"
-    },
-    {
-      "type": "readOnly",
-      "label": "نوع خواندن",
-      "inputName": "readingType",
-      "inputType": "string"
-    },
-    {
-      "type": "readOnly",
-      "label": "اپراتور",
-      "inputName": "operatorName",
-      "inputType": "string"
-    },
-    {
-      "type": "readOnly",
-      "label": "وضعیت استفاده",
-      "inputName": "simCardUsageState",
-      "inputType": "string"
-    },
-    {
-      "type": "readOnly",
-      "label": "تاریخ فعال‌سازی",
-      "inputName": "activationDate",
-      "inputType": "string"
-    },
-    {
-      "type": "readOnly",
-      "label": "فعال شده",
-      "inputName": "isActivated",
-      "inputType": "string"
-    },
-    {
-      "type": "readOnly",
-      "label": "قسطی",
-      "inputName": "ghesti",
-      "inputType": "string"
-    },
-    {
-      "type": "readOnly",
-      "label": "وضعیت",
-      "inputName": "vaziat",
-      "inputType": "string"
-    },
-    {
-      "type": "readOnly",
-      "label": "ویژه",
-      "inputName": "isVIP",
-      "inputType": "string"
+      "inputType": "text"
     },
     {
       "type": "readOnly",
       "label": "شناسه فروشنده",
       "inputName": "sellerID",
-      "inputType": "string"
+      "inputType": "text"
+    },
+    {
+      "type": "editable",
+      "label": "نوع خواندن",
+      "inputName": "readingType",
+      "inputType": "text"
+    },
+    {
+      "type": "editable",
+      "label": "اپراتور",
+      "inputName": "operatorName",
+      "inputType": "select",
+      "options": [{ value: 'Irancell', label: 'ایرانسل' },
+      { value: 'Hamrah-e Aval', label: 'همراه اول' },
+      { value: 'Rightel', label: 'رایتل' }
+      ]
+    },
+    {
+      "type": "editable",
+      "label": "وضعیت استفاده",
+      "inputName": "simCardUsageState",
+      "inputType": "select",
+      "options": [{ value: 'new', label: 'جدید' },
+      { value: 'used', label: 'مصرف شده' },
+      { value: 'semi used', label: 'نسبتا جدید' }
+      ]
+    },
+    {
+      "type": "editable",
+      "label": "تاریخ فعال‌سازی",
+      "inputName": "activationDate",
+      "inputType": "date"
+    },
+    {
+      "type": "editable",
+      "label": "فعال شده",
+      "inputName": "isActivated",
+      "inputType": "boolean",
+      onChange: (event, id) => {
+        put(ADMIN_PANEL.SIM_CARDS.PUT, {
+          _id: id,
+          isActivated: event
+        })
+          .then(res => {
+            refresh()
+          })
+      }
+    },
+    {
+      "type": "editable",
+      "label": "قسطی",
+      "inputName": "ghesti",
+      "inputType": "boolean",
+      onChange: (event, id) => {
+        put(ADMIN_PANEL.SIM_CARDS.PUT, {
+          _id: id,
+          ghesti: event
+        })
+          .then(res => {
+            refresh()
+          })
+      }
+    },
+    {
+      "type": "editable",
+      "label": "وضعیت",
+      "inputName": "vaziat",
+      "inputType": "boolean",
+      onChange: (event, id) => {
+        put(ADMIN_PANEL.SIM_CARDS.PUT, {
+          _id: id,
+          vaziat: event
+        })
+          .then(res => {
+            refresh()
+          })
+      }
+    },
+    {
+      "type": "editable",
+      "label": "ویژه",
+      "inputName": "isVIP",
+      "inputType": "boolean",
+      onChange: (event, id) => {
+        put(ADMIN_PANEL.SIM_CARDS.PUT, {
+          _id: id,
+          isVIP: event
+        })
+          .then(res => {
+            refresh()
+          })
+      }
     },
     {
       "type": "readOnly",
       "label": "تاریخ ایجاد",
       "inputName": "createdAt",
-      "inputType": "string"
+      "inputType": "date"
+    },
+    {
+      "type": "readOnly",
+      "label": "کنترل ها",
+      "inputName": "createdAt",
+      "inputType": "controll"
     }
   ]
 
@@ -194,6 +230,7 @@ export default function AllSimCards() {
   const handleEditSubmit = (e) => {
     e.preventDefault()
     const formData = new FormData(e.target)
+    logFormData(e.target)
     put(ADMIN_PANEL.SIM_CARDS.PUT, formData)
       .then(res => {
         refresh()
@@ -207,6 +244,7 @@ export default function AllSimCards() {
     e.preventDefault()
     const formData = new FormData(e.target)
 
+    logFormData(e.target)
     post(ADMIN_PANEL.SIM_CARDS.POST, formData)
       .then(resp => {
         console.log(resp)
@@ -218,17 +256,8 @@ export default function AllSimCards() {
 
   }
 
-  const simCardUsageOptions = [
-    { value: 'new', label: 'جدید' },
-    { value: 'used', label: 'مصرف شده' },
-    { value: 'semi used', label: 'نسبتا جدید' }
-  ]
 
-  const simCardsOperatorName = [
-    { value: 'Irancell', label: 'ایرانسل' },
-    { value: 'Hamrah-e Aval', label: 'همراه اول' },
-    { value: 'Rightel', label: 'رایتل' }
-  ]
+
 
   return (
     <main className='admin-panel-all-simcards'>
@@ -252,9 +281,9 @@ export default function AllSimCards() {
 
           columnsStyle={
             `6rem 15ch 20ch 9rem 10rem 
-             15rem 15rem 6rem 10rem 10rem
-             10rem 6rem 4rem 6rem 6rem 
-             8rem  10rem `}>
+             15rem 15rem 10rem 10rem 10rem
+             10rem 10rem 10rem 10rem 10rem 
+             8rem 10rem  10rem `}>
 
 
 
@@ -272,166 +301,106 @@ export default function AllSimCards() {
 
           <TableBody>
 
-            {isAddingSimCard && <Row
-              onSubmit={handleCreateSubmit}
-              key={2500}>
+            {isAddingSimCard && (
+              <Row
+                onSubmit={handleCreateSubmit}
 
-              <Property>
-                <div className="property-header">
-                  {headersList[0]}
-                </div>
-                <div className="property-body">
-                  خودکار
-                </div>
-              </Property>
+                key={2500}>
 
-              <Property  >
-                <div className="property-header">
-                  {headersList[1]}
-                </div>
-                <div className="property-body price">
-                  <input
-                    minLength={5}
-                    maxLength={5}
-                    required
-                    type="number"
-                    name='numbers'
-                  />
-                </div>
-              </Property>
+                {headersList.map((item, index) => {
+                  if (item.inputType === "text") {
+                    return (
+                      <PropertyText
+                        key={index}
+                        defaultValue={item.type === "readOnly" ? "خودکار" : ""}
+                        headerTitle={item.label}
+                        inputName={undefined}
+                        inputType={"text"}
+                         isRowEditing={item.type === "readOnly" ? false : true} // Assuming you want the first row in editing mode
+                      />
+                    );
+                  }
 
-              <Property>
-                <div className="property-header">
-                  {headersList[2]}
-                </div>
-                <div className="property-body price">
-                  <input
-                    required
-                    type="number"
-                    name='price'
-                  />
-                  <small>تومان</small>
-                </div>
-              </Property>
+                  if (item.inputType === "number") {
+                    return (
+                      <PropertyNumber
+                        key={index}
+                        defaultValue={item.type === "readOnly" ? "خودکار" : ""}
+                        headerTitle={item.label}
+                        inputName={item.inputName}
+                        inputType={item.inputType}
+                         isRowEditing={item.type === "readOnly" ? false : true}
+                      />
+                    );
+                  }
 
+                  if (item.inputType === "select") {
+                    return (
+                      <PropertySelect
+                        key={index}
+                        defaultValue={item.type === "readOnly" ? "خودکار" : ""}
+                        headerTitle={item.label}
+                        inputName={item.inputName}
+                        inputType={item.inputType}
+                         isRowEditing={item.type === "readOnly" ? false : true}
+                        options={item.options}
+                      />
+                    );
+                  }
 
-              <Property >
-                <div className="property-header">
-                  {headersList[3]}
-                </div>
-                <div className="property-body select-box">
-                  <select
-                    name="simCardUsageState" >
-                    {simCardUsageOptions.map((item) => {
-                      return <option
-                        key={item.value}
-                        value={item.value}>
-                        {item.label}
-                      </option>
-                    })}
-                  </select>
+                  if (item.inputType === "boolean") {
+                    return (
+                      <PropertyBoolean
+                        key={index}
+                        defaultValue={false}
+                        headerTitle={item.label}
+                        inputName={item.inputName}
+                        inputType={item.inputType}
+                         isRowEditing={item.type === "readOnly" ? false : true}
+                        onChange={(e) => {
+                          item.onChange(e, null); // Pass null for the ID since it's a new record
+                        }}
+                      />
+                    );
+                  }
 
-                </div>
-              </Property>
+                  if (item.inputType === "date") {
+                    return (
+                      <PropertyDate
+                        key={index}
+                        defaultValue={item.type === "readOnly" ? "خودکار" : ""}
+                        headerTitle={item.label}
+                        inputName={item.inputName}
+                        inputType={item.inputType}
+                        isRowEditing={item.type === "readOnly" ? false : true}
+                      />
+                    );
+                  }
 
-              <Property >
-                <div className="property-header">
-                  {headersList[4]}
-                </div>
-                <div className="property-body select-box">
-                  <select
-                    name="operatorName" >
-                    {simCardsOperatorName.map((item) => {
-                      return <option
-                        key={item.value}
-                        value={item.value}>
-                        {item.label}
-                      </option>
-                    })}
-                  </select>
-                </div>
-              </Property>
+                  if (item.inputType === "controll") {
+                    return (
+                      <Property key={index}>
+                        <div className="property-header">کنترل ها</div>
+                        <div className="property-body">
+                          <div className="buttons">
+                            <button
+                              className="submit"
+                              type="submit"
+                            >
+                              <span>اضافه کردن</span>
+                              <Icon icon="formkit:submit" />
+                            </button>
+                          </div>
+                        </div>
+                      </Property>
+                    );
+                  }
 
-              <Property >
-                <div className="property-header">
-                  {headersList[5]}
-                </div>
-                <div className="property-body icon">
-                  <input type="checkbox" name='ghesti' />
-                </div>
-              </Property>
+                  return null;
+                })}
+              </Row>
+            )}
 
-              <Property>
-                <div className="property-header">
-                  {headersList[6]}
-                </div>
-                <div className="property-body price">
-                  <input
-                    required
-                    type="number"
-                    name='pish'
-                    defaultValue={0}
-                  />
-                </div>
-              </Property>
-
-              <Property >
-                <div className="property-header">
-                  {headersList[7]}
-                </div>
-                <div className="property-body icon">
-                  <input
-                    type="checkbox"
-                    name='vaziat' />
-                </div>
-              </Property>
-
-              <Property  >
-                <div className="property-header">
-                  {headersList[8]}
-                </div>
-                <div className="property-body">
-                  خودکار
-                </div>
-              </Property>
-
-              <Property >
-                <div className="property-header">
-                  {headersList[9]}
-                </div>
-                <div className="property-body">
-                  خودکار
-                </div>
-              </Property>
-
-              <Property >
-                <div className="property-header">
-                  {headersList[9]}
-                </div>
-                <div className="property-body">
-                  <div className="buttons">
-                    <button className='submit'>
-                      اضافه کردن
-                      <Icon icon="formkit:submit" />
-                    </button>
-                  </div>
-                </div>
-              </Property>
-
-              <Property >
-                <div className="property-header">
-                  {headersList[11]}
-                </div>
-                <div className="property-body">
-                  <h2>
-                    -
-                  </h2>
-                </div>
-              </Property>
-
-
-
-            </Row>}
 
             {
               data?.data.map((record, index) => {
@@ -440,118 +409,155 @@ export default function AllSimCards() {
                   key={record._id}
                   onSubmit={handleEditSubmit}  >
 
-                  <Property >
-                    <div className="property-header">
-                      {headersList[0].label}
-                    </div>
-                    <div className="property-body">
-                      {record[headersList[0].inputName]}
-                      <input
-                        type="hidden"
-                        name='simCardID'
-                        defaultValue={record._id} />
-                    </div>
-
-                  </Property>
 
 
-                  <Property >
-                    <div className="property-header">
-                      {headersList[1].label}
-                    </div>
-                    <div className="property-body">
-                      {record._id}
-                      <input
-                        type="hidden"
-                        name='simCardID'
-                        defaultValue={record._id} />
-                    </div>
-
-                  </Property>
-
-                  {/* <Property >
-                    <div className="property-header">
-                      {headersList[0]}
-                    </div>
-                    <div className="property-body">
-                      {record._id}
-                      <input
-                        type="hidden"
-                        name='simCardID'
-                        defaultValue={record._id} />
-                    </div>
-
-                  </Property>
-
-                  <Property  >
-                    <div className="property-header">
-                      {headersList[1]}
-                    </div>
-                    <div className="property-body price">
-                      <input
-                        readOnly={!isRowEditing}
-                        type="number"
-                        name='numbers'
-                        defaultValue={record.numbers} />
-                    </div>
-                  </Property>
-
-                  <Property>
-                    <div className="property-header">
-                      {headersList[2]}
-                    </div>
-                    <div className="property-body price">
-                      <input
-                        readOnly={!isRowEditing}
-
-                        type="number"
-                        name='price'
-                        defaultValue={record.price} />
-                      <small>تومان</small>
-                    </div>
-                  </Property>
+                  {
+                    headersList.map((item, index) => {
 
 
-                  <Property >
-                    <div className="property-header">
-                      {headersList[3]}
-                    </div>
-                    <div className="property-body select-box">
-                      <select
-                        readOnly={!isRowEditing}
-                        defaultValue={record?.simCardUsageState}
-                        name="simCardUsageState" >
-                        {simCardUsageOptions.map((item) => {
-                          return <option
-                            key={item.value}
-                            value={item.value}>
-                            {item.label}
-                          </option>
-                        })}
-                      </select>
+                      if (item.inputType === "text") {
+                        return <PropertyText
+                          key={index}
+                          defaultValue={record[item.inputName]}
+                          headerTitle={item.label}
+                          inputName={item.inputName}
+                          inputType={item.inputType}
+                          isRowEditing={item.type == "readOnly" ? false : isRowEditing}
+                        />
+                      }
 
-                    </div>
-                  </Property>
 
-                  <Property >
-                    <div className="property-header">
-                      {headersList[4]}
-                    </div>
-                    <div className="property-body select-box">
-                      <select
-                        readOnly={!isRowEditing}
-                        defaultValue={record?.operatorName}
-                        name="operatorName" >
-                        {simCardsOperatorName.map((item) => {
-                          return <option
-                            key={item.value}
-                            value={item.value}>
-                            {item.label}
-                          </option>
-                        })}
-                      </select>
-                    </div>
-                  </Property>
+                      if (item.inputType === "number") {
+                        return <PropertyNumber
+                          key={index}
+                          defaultValue={record[item.inputName]}
+                          headerTitle={item.label}
+                          inputName={item.inputName}
+                          inputType={item.inputType}
+                          isRowEditing={item.type == "readOnly" ? false : isRowEditing}
+                        />
+                      }
+
+                      if (item.inputType === "select") {
+                        return <PropertySelect
+                          key={index}
+                          defaultValue={record[item.inputName]}
+                          headerTitle={item.label}
+                          inputName={item.inputName}
+                          inputType={item.inputType}
+                          isRowEditing={item.type == "readOnly" ? false : isRowEditing}
+                          options={item.options}
+                        />
+                      }
+
+
+                      if (item.inputType === "boolean") {
+                        return <PropertyBoolean
+                          key={index}
+                          defaultValue={record[item.inputName]}
+                          headerTitle={item.label}
+                          inputName={item.inputName}
+                          inputType={item.inputType}
+                          isRowEditing={item.type == "readOnly" ? false : isRowEditing}
+                          onChange={(e) => {
+                            item.onChange(e, record._id)
+                          }}
+                        />
+                      }
+
+
+                      if (item.inputType === "date") {
+                        return <PropertyDate
+                          key={index}
+                          defaultValue={record[item.inputName]}
+                          headerTitle={item.label}
+                          inputName={item.inputName}
+                          inputType={item.inputType}
+                          isRowEditing={item.type == "readOnly" ? false : isRowEditing}
+                        />
+                      }
+
+
+
+                      if (item.inputType === "controll") {
+                        return <Property key={index} >
+                          <div className="property-header">
+                            کنترل ها
+                          </div>
+                          <div className="property-body">
+                            <div className="buttons">
+
+                              {
+                                isRowEditing ?
+                                  <button
+                                    className='submit'
+                                    onClick={() => handleToggleEditMode()}
+                                    type='button'>
+                                    <span>ثبت</span>
+                                    <Icon icon="iconamoon:edit-bold" />
+                                  </button> :
+                                  <button
+                                    className='edit'
+                                    onClick={() => handleToggleEditMode(record)}
+                                    type='submit'>
+                                    <span>ویرایش</span>
+                                    <Icon icon="iconamoon:edit-bold" />
+                                  </button>
+                              }
+
+
+                              <button
+                                type='button'
+                                onClick={() => handleDeleteSimCardClick(record)}
+                                className='delete'>
+                                حذف
+                                <Icon icon="iconamoon:edit-bold" />
+                              </button>
+
+
+                              <button
+                                type='button'
+                                className={`status status-${record.isActivated}`}
+                                onClick={() => {
+                                  put(ADMIN_PANEL.SIM_CARDS.PUT, {
+                                    _id: record._id,
+                                    isActivated: !record.isActivated
+                                  }).then(res => refresh())
+                                }}>
+
+                                {
+                                  record.isActivated ?
+                                    <>
+                                      نمایش
+                                      <Icon icon="eos-icons:system-ok" />
+                                    </>
+                                    :
+                                    <>
+                                      پنهان
+                                      <Icon icon="material-symbols:do-not-touch" />
+                                    </>
+
+                                }
+                              </button>
+                            </div>
+
+                          </div>
+                        </Property>
+                      }
+
+
+
+                    })
+                  }
+
+
+
+
+                  {
+                  /* 
+               
+
+          
 
                   <Property >
                     <div className="property-header">
@@ -699,6 +705,8 @@ export default function AllSimCards() {
                       </h2>
                     </div>
                   </Property> */}
+
+
 
                 </Row>
               })
