@@ -9,14 +9,14 @@ export default function Header() {
 
     const menu = [
         {
-            title: "خانه",
-            svg: <Icon icon="material-symbols:home" />,
-            link: "/"
-        },
-        {
             title: "سیمکارت ها",
             svg: <Icon icon="eos-icons:admin" />,
             link: "/admin/panel/sim-cards"
+        },
+        {
+            title: "CSV",
+            svg: <Icon icon="tabler:file-type-csv" />,
+            link: "/admin/panel/csv"
         },
         {
             title: "فروش ها",
@@ -47,6 +47,7 @@ export default function Header() {
             <ul>
                 {menu.map((item, index) => {
                     return <li
+                        className={`item-${item.link === selectedPage?.link}`}
                         key={index}
                         onClick={() => setSelectedPage(item)}
                     >

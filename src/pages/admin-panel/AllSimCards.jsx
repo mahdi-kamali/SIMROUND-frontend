@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import ResponsivePagination from 'react-responsive-pagination';
-
+import React, { useState } from 'react'
+import { Icon } from '@iconify/react';
 import { deleteF, post, put, useFetch } from '../../libs/fetcher'
 import { ADMIN_PANEL } from '../../constants/API_URLS'
-import { formatDate } from '../../libs/timeFormater'
 import Swal from "sweetalert2"
 import { showError, showSuccess } from "../../libs/alertHandler"
 
@@ -15,15 +13,16 @@ import Row from "../../components/table/components/Row"
 import TableBody from "../../components/table/components/TableBody"
 import TableHeader from "../../components/table/components/TableHeader"
 import TablePaginations from "../../components/table/components/TablePaginations"
-import { Icon } from '@iconify/react';
-
-
-import Switch from "react-switch";
 import PropertyText from '../../components/table/components/PropertyText';
 import PropertyNumber from '../../components/table/components/PropertyNumber';
 import PropertySelect from '../../components/table/components/PropertySelect';
 import PropertyDate from '../../components/table/components/PropertyDate';
 import PropertyBoolean from '../../components/table/components/PropertyBoolean';
+import ResponsivePagination from 'react-responsive-pagination';
+
+
+
+
 import { logFormData } from '../../libs/formDataLogger';
 
 
@@ -80,12 +79,7 @@ export default function AllSimCards() {
       "inputName": "description",
       "inputType": "text"
     },
-    {
-      "type": "readOnly",
-      "label": "شناسه فروشنده",
-      "inputName": "sellerID",
-      "inputType": "text"
-    },
+
     {
       "type": "editable",
       "label": "نوع خواندن",
@@ -104,12 +98,31 @@ export default function AllSimCards() {
     },
     {
       "type": "editable",
-      "label": "وضعیت استفاده",
-      "inputName": "simCardUsageState",
+      "label": "فروشنده",
+      "inputName": "seller",
       "inputType": "select",
-      "options": [{ value: 'new', label: 'جدید' },
-      { value: 'used', label: 'مصرف شده' },
-      { value: 'semi used', label: 'نسبتا جدید' }
+      "options": [
+        { value: '1', label: 'احمد' },
+        { value: '3', label: 'فلاحی' },
+        { value: '4', label: 'غدیر' },
+        { value: '5', label: 'پویا نژاد' },
+      ]
+    },
+    {
+      "type": "readOnly",
+      "label": "شناسه فروشنده",
+      "inputName": "sellerID",
+      "inputType": "text"
+    },
+    {
+      "type": "editable",
+      "label": "وضعیت",
+      "inputName": "vaziat",
+      "inputType": "select",
+      "options": [
+        { value: 'new', label: 'جدید' },
+        { value: 'used', label: 'مصرف شده' },
+        { value: 'semi used', label: 'نسبتا جدید' }
       ]
     },
     {
@@ -142,21 +155,6 @@ export default function AllSimCards() {
         put(ADMIN_PANEL.SIM_CARDS.PUT, {
           _id: id,
           ghesti: event
-        })
-          .then(res => {
-            refresh()
-          })
-      }
-    },
-    {
-      "type": "editable",
-      "label": "وضعیت",
-      "inputName": "vaziat",
-      "inputType": "boolean",
-      onChange: (event, id) => {
-        put(ADMIN_PANEL.SIM_CARDS.PUT, {
-          _id: id,
-          vaziat: event
         })
           .then(res => {
             refresh()
@@ -280,10 +278,10 @@ export default function AllSimCards() {
         <Table
 
           columnsStyle={
-            `6rem 15ch 20ch 9rem 10rem 
+            `6rem 15ch 20ch  10rem 
              15rem 15rem 10rem 10rem 10rem
              10rem 10rem 10rem 10rem 10rem 
-             8rem 10rem  10rem `}>
+             8rem 10rem  10rem 10rem `}>
 
 
 
@@ -304,7 +302,6 @@ export default function AllSimCards() {
             {isAddingSimCard && (
               <Row
                 onSubmit={handleCreateSubmit}
-
                 key={2500}>
 
                 {headersList.map((item, index) => {
@@ -314,9 +311,9 @@ export default function AllSimCards() {
                         key={index}
                         defaultValue={item.type === "readOnly" ? "خودکار" : ""}
                         headerTitle={item.label}
-                        inputName={undefined}
+                        inputName={item.type === "readOnly" ? undefined : item.inputName}
                         inputType={"text"}
-                         isRowEditing={item.type === "readOnly" ? false : true} // Assuming you want the first row in editing mode
+                        isRowEditing={item.type === "readOnly" ? false : true} // Assuming you want the first row in editing mode
                       />
                     );
                   }
@@ -329,7 +326,7 @@ export default function AllSimCards() {
                         headerTitle={item.label}
                         inputName={item.inputName}
                         inputType={item.inputType}
-                         isRowEditing={item.type === "readOnly" ? false : true}
+                        isRowEditing={item.type === "readOnly" ? false : true}
                       />
                     );
                   }
@@ -342,7 +339,7 @@ export default function AllSimCards() {
                         headerTitle={item.label}
                         inputName={item.inputName}
                         inputType={item.inputType}
-                         isRowEditing={item.type === "readOnly" ? false : true}
+                        isRowEditing={item.type === "readOnly" ? false : true}
                         options={item.options}
                       />
                     );
@@ -350,17 +347,7 @@ export default function AllSimCards() {
 
                   if (item.inputType === "boolean") {
                     return (
-                      <PropertyBoolean
-                        key={index}
-                        defaultValue={false}
-                        headerTitle={item.label}
-                        inputName={item.inputName}
-                        inputType={item.inputType}
-                         isRowEditing={item.type === "readOnly" ? false : true}
-                        onChange={(e) => {
-                          item.onChange(e, null); // Pass null for the ID since it's a new record
-                        }}
-                      />
+                      <input type="checkbox" name={item.inputName} />
                     );
                   }
 

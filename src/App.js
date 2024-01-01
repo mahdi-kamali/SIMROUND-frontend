@@ -16,6 +16,7 @@ import Auth from "./pages/auth/Auth";
 import AllSimCards from "./pages/admin-panel/AllSimCards";
 import BuyOrders from "./pages/admin-panel/BuyOrders";
 import SellOrders from "./pages/admin-panel/SellOrders";
+import Csv from "./pages/admin-panel/Csv";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/admin/panel/sim-cards" element={<AllSimCards />} />
           <Route path="/admin/panel/sales" element={<SellOrders />} />
           <Route path="/admin/panel/Buys" element={<BuyOrders />} />
+          <Route path="/admin/panel/csv" element={<Csv />} />
           <Route path="*" element={<h1>صفحه پیدا نشد.</h1>} />
         </Routes>
         <Footer />

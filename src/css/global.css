@@ -26,7 +26,7 @@ header {
 header ul {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0rem;
   font-size: 1.25rem;
   font-weight: bold;
 }
@@ -37,9 +37,16 @@ header ul li {
   flex-direction: row-reverse;
   gap: 0.5rem;
   cursor: pointer;
+  padding: 0.25em 1em;
+  border-radius: 100rem;
+  transition: all 1s ease;
 }
 header ul li svg {
   font-size: 1.5rem;
+}
+header ul .item-true {
+  background-color: #3165f3;
+  color: white;
 }
 
 button {
@@ -159,6 +166,37 @@ main {
   gap: 2rem;
 }
 .admin-panel-buys h1 button {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: green;
+  color: white;
+  padding: 0.25em 1em;
+  border-radius: 100rem;
+  cursor: pointer;
+}
+
+.admin-panel-csv {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-top: 10em;
+  padding-right: 5em;
+}
+.admin-panel-csv h1 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 25ch;
+}
+.admin-panel-csv h1 span {
+  width: 15ch;
+}
+.admin-panel-csv h1 input {
+  display: none;
+}
+.admin-panel-csv h1 button, .admin-panel-csv h1 label {
   font-size: 1.25rem;
   display: flex;
   align-items: center;
