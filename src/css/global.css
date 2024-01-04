@@ -59,6 +59,10 @@ main {
   overflow: hidden;
 }
 
+input {
+  direction: ltr;
+}
+
 .auth-page {
   display: flex;
   flex-direction: column;
@@ -207,7 +211,7 @@ main {
   align-items: center;
   gap: 0.25rem;
   border-radius: 0.25rem;
-  padding: 0.25em;
+  padding: 0.25em 0.5em;
   justify-content: center;
   cursor: pointer;
 }
@@ -215,7 +219,7 @@ main {
   max-width: 20ch;
 }
 .admin-panel-csv .controll-box .box .download {
-  background-color: blue;
+  background-color: #3165f3;
   color: white;
 }
 .admin-panel-csv .controll-box .box .upload {

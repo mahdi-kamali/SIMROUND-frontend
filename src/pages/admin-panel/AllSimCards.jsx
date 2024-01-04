@@ -51,6 +51,12 @@ export default function AllSimCards() {
     },
     {
       "type": "editable",
+      "label": "خانه ای",
+      "inputName": "khanaei",
+      "inputType": "text"
+    },
+    {
+      "type": "editable",
       "label": "قیمت",
       "inputName": "price",
       "inputType": "number"
@@ -79,7 +85,6 @@ export default function AllSimCards() {
       "inputName": "description",
       "inputType": "text"
     },
-
     {
       "type": "editable",
       "label": "نوع خواندن",
@@ -120,9 +125,9 @@ export default function AllSimCards() {
       "inputName": "vaziat",
       "inputType": "select",
       "options": [
-        { value: 'new', label: 'جدید' },
-        { value: 'used', label: 'مصرف شده' },
-        { value: 'semi used', label: 'نسبتا جدید' }
+        { value: 'new', label: 'صفر' },
+        { value: 'used', label: 'کارکرده' },
+        { value: 'semi used', label: 'اعتباری' }
       ]
     },
     {
@@ -281,7 +286,7 @@ export default function AllSimCards() {
             `6rem 15ch 20ch  10rem 
              15rem 15rem 10rem 10rem 10rem
              10rem 10rem 10rem 10rem 10rem 
-             8rem 10rem  10rem 10rem `}>
+             8rem 10rem 10rem  10rem 10rem `}>
 
 
 
