@@ -1,4 +1,5 @@
 
+import { useState } from "react"
 import Switch from "react-switch"
 export default function PropertyBoolean({
   headerTitle,
@@ -6,19 +7,32 @@ export default function PropertyBoolean({
   inputType,
   inputName,
   defaultValue,
-  onChange
+  onChange,
+  isCheckBox
 }) {
+
+  const [state, setState] = useState(defaultValue)
   return (
     <div className="property">
       <div className="property-header">
         {headerTitle}
       </div>
-      
+
       <div className="property-body icon">
-        <Switch
-          onChange={onChange}
-          checked={defaultValue}
-        />
+        {
+          isCheckBox ? <Switch
+            onChange={
+              (e) => {
+                setState(e)
+              }
+            }
+            checked={state}
+          /> : <Switch
+            onChange={onChange}
+            checked={defaultValue}
+          />
+        }
+
       </div>
     </div>
   )

@@ -138,12 +138,11 @@ main {
     }
 }
 
-
 .admin-panel-all-simcards {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    
+
     h1 {
         display: flex;
         align-items: center;
@@ -168,7 +167,7 @@ main {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    
+
     h1 {
         display: flex;
         align-items: center;
@@ -185,41 +184,61 @@ main {
             cursor: pointer;
         }
     }
-    
 }
-
-
 
 .admin-panel-csv {
     display: flex;
     flex-direction: column;
     gap: 2rem;
     padding-top: 10em;
-    padding-right: 5em;
-    
-    
-    h1  {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        width: 25ch;
-        span {
-            width: 15ch;
-        }
-        input {
-            display: none;
-        }
 
-        button , label{
-            font-size: 1.25rem;
+    .controll-box {
+        display: flex;
+        gap: 1.5rem;
+        width: 90%;
+        margin: 0 auto;
+        .box {
             display: flex;
+            flex-direction: row;
             align-items: center;
-            gap: 0.5rem;
-            background-color: green;
-            color: white;
-            padding: 0.25em 1em;
-            border-radius: 100rem;
-            cursor: pointer;
+            gap: 1rem;
+            border: 1px solid rgb(221, 221, 221);
+            padding: 1.5em;
+            border-radius: 0.5rem;
+            span {
+                font-size: 1.25rem;
+                font-weight: bold;
+            }
+            button {
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                border-radius: 0.25rem;
+                padding: 0.25em;
+                justify-content: center;
+                cursor: pointer;
+            }
+            input {
+                max-width: 20ch;
+            }
+            .download {
+                background-color: blue;
+                color: white;
+            }
+            .upload {
+                background-color: orangered;
+                color: white;
+                gap: 0.25rem;
+                border-radius: 0.25rem;
+                padding: 0.25em 0.5em;
+                cursor: pointer;
+            }
+            .submit {
+                background-color: green !important;
+                align-self: center;
+                width: 10ch;
+                color: white;
+            }
         }
     }
 }

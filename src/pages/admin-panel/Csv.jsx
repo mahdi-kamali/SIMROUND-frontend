@@ -18,7 +18,7 @@ import PropertyDate from '../../components/table/components/PropertyDate';
 import PropertyBoolean from '../../components/table/components/PropertyBoolean';
 import ResponsivePagination from 'react-responsive-pagination';
 import { Icon } from "@iconify/react";
-
+import {logFormData} from "../../libs/formDataLogger"
 
 
 export default function Csv() {
@@ -115,8 +115,8 @@ export default function Csv() {
       "inputType": "select",
       "options": [
         { value: 'new', label: 'جدید' },
-        { value: 'used', label: 'مصرف شده' },
-        { value: 'semi used', label: 'نسبتا جدید' }
+        { value: 'used', label: 'کارکرده' },
+        { value: 'semi used', label: 'اعتباری' }
       ]
     },
     {
@@ -171,56 +171,64 @@ export default function Csv() {
 
     const file = e.target.files[0]
 
+    if (file) {
+      const data = await xlsxParser
+        .onFileSelection(file)
+        .then(data => {
+          const result = data.Sheet1
 
-    const data = await xlsxParser
-      .onFileSelection(file)
-      .then(data => {
-        const result = data.Sheet1
+          const temp = result.map(item => {
 
-        const temp = result.map(item => {
+            const vaziatHeader = headersList.find(item => {
+              return item.inputName === "vaziat"
+            })
+            const operatorNameHeader = headersList.find(item => {
+              return item.inputName === "operatorName"
+            })
 
-          const vaziatHeader = headersList.find(item => {
-            return item.inputName === "vaziat"
+
+
+
+
+            return {
+              _id: "خودکار",
+              ghesti: item.aghsat === 1 || item.aghsat === "1",
+              numbers: item.shomare,
+              price: item.gheymat,
+              maxGhestCount: item.max_ghest,
+              pish: item.pish,
+              label: item.label ? item.label : "تعریف نشده",
+              vaziat: vaziatHeader.options[item.vaziat].value,
+              operatorName: operatorNameHeader.options[item.operator - 1]?.value,
+              khanaei: item.khanaei
+            }
           })
-          const operatorNameHeader = headersList.find(item => {
-            return item.inputName === "operatorName"
-          })
-
-
-          
-
-
-          return {
-            _id: "خودکار",
-            ghesti: item.aghsat === 1 || item.aghsat === "1",
-            numbers: item.shomare,
-            price: item.gheymat,
-            maxGhestCount: item.max_ghest,
-            pish: item.pish,
-            label: item.label ? item.label : "تعریف نشده",
-            vaziat: vaziatHeader.options[item.vaziat].value,
-            operatorName:  operatorNameHeader.options[item.operator -1]?.value,
 
 
 
+          return temp
+        });
 
 
-            khanaei: item.khanaei
-          }
-        })
+      setImportFile(data)
+    } else {
+      setImportFile([])
+    }
 
-        console.log(temp)
-
-
-        return temp
-      });
-
-
-    setImportFile(data)
   }
 
 
 
+  const handleRowSubmit = (e) => {
+    e.preventDefault()
+    alert("ok")
+  }
+
+
+  const handleUploadFileSubmitClick = (e) => {
+    e.preventDefault()
+    logFormData(e.target)
+  }
 
 
 
@@ -231,25 +239,37 @@ export default function Csv() {
   return (
     <main className="admin-panel-csv">
 
-      <h1>
-        <span>گرفتن خروجی</span>
-        <button>
-          دریافت فایل
-        </button>
-      </h1>
 
-      <h1>
-        <span>
-          ارسال ورودی
-        </span>
-        <label >
-          انتخاب فایل
-          <input
-            type="file"
-            accept=".xlsx"
-            onChange={onSelectFileInputChange} />
-        </label>
-      </h1>
+      <div className="controll-box">
+        <div className="box">
+          <span>دریافت اطلاعات</span>
+          <button className="download">
+            دانلود
+            <Icon icon="material-symbols:download" />
+          </button>
+        </div>
+
+        <form className="box" onSubmit={handleUploadFileSubmitClick}>
+          <span>آپلود اطلاعات</span>
+          <div className="upload">
+            اپلود
+            <input
+              type="file"
+              name="file"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              onChange={onSelectFileInputChange}
+            />
+            <Icon icon="material-symbols:upload" />
+          </div>
+          {importFile.length !== 0 && <button
+            className="submit">
+            <Icon icon="el:ok" />
+            <span>
+              ثبت
+            </span>
+          </button>}
+        </form>
+      </div>
 
 
       <div className="body">
@@ -285,15 +305,15 @@ export default function Csv() {
               importFile.map((record, rowIndex) => {
 
                 return <Row
+                  onSubmit={handleRowSubmit}
+                  // forceSubmit={}
                   key={rowIndex}  >
                   {
                     headersList.map((item, index) => {
-
-
                       if (item.inputType === "text") {
                         return <PropertyText
                           key={index}
-                          defaultValue={record[item.inputName]}
+                          defaultValue={record[item.inputName] ? record[item.inputName] : ""}
                           headerTitle={item.label}
                           inputName={item.inputName}
                           inputType={item.inputType}
@@ -304,7 +324,7 @@ export default function Csv() {
                       if (item.inputType === "number") {
                         return <PropertyNumber
                           key={index}
-                          defaultValue={record[item.inputName] | "خالی"}
+                          defaultValue={record[item.inputName] ? record[item.inputName] : ""}
                           headerTitle={item.label}
                           inputName={item.inputName}
                           inputType={item.inputType}
@@ -326,6 +346,7 @@ export default function Csv() {
 
                       if (item.inputType === "boolean") {
                         return <PropertyBoolean
+                          isCheckBox={true}
                           key={index}
                           defaultValue={record[item.inputName] | false}
                           headerTitle={item.label}
@@ -352,165 +373,6 @@ export default function Csv() {
 
                     })
                   }
-
-
-
-
-                  {
-          /* 
-       
-
-  
-
-          <Property >
-            <div className="property-header">
-              {headersList[5]}
-            </div>
-            <div className="property-body icon">
-              <Switch
-                onChange={(e) => {
-                  put(ADMIN_PANEL.SIM_CARDS.PUT, {
-                    simCardID: record._id,
-                    ghesti: e
-                  })
-                    .then(res => {
-                      refresh()
-                    })
-                }}
-                checked={record.ghesti}
-              />
-            </div>
-          </Property>
-
-          <Property>
-            <div className="property-header">
-              {headersList[6]}
-            </div>
-            <div className="property-body price">
-              <input
-                readOnly={!isRowEditing}
-
-                type="number"
-                name='pish'
-                defaultValue={record.pish} />
-            </div>
-          </Property>
-
-          <Property >
-            <div className="property-header">
-              {headersList[7]}
-            </div>
-            <div className="property-body icon">
-              <Switch
-                onChange={(e) => {
-                  put(ADMIN_PANEL.SIM_CARDS.PUT, {
-                    simCardID: record._id,
-                    vaziat: e
-                  })
-                    .then(res => {
-                      refresh()
-                    })
-                }}
-                checked={record.vaziat} />
-            </div>
-          </Property>
-
-          <Property  >
-            <div className="property-header">
-              {headersList[8]}
-            </div>
-            <div className="property-body">
-              {record.sellerID}
-            </div>
-          </Property>
-
-          <Property >
-            <div className="property-header">
-              {headersList[9]}
-            </div>
-            <div className="property-body">
-              {formatDate(record.createdAt)}
-            </div>
-          </Property>
-
-          <Property >
-            <div className="property-header">
-              {headersList[10]}
-            </div>
-            <div className="property-body">
-              <div className="buttons">
-
-                {
-                  isRowEditing ?
-                    <button
-                      className='submit'
-                      onClick={() => handleToggleEditMode()}
-                      type='button'>
-                      <span>ثبت</span>
-                      <Icon icon="iconamoon:edit-bold" />
-                    </button> :
-                    <button
-                      className='edit'
-                      onClick={() => handleToggleEditMode(record)}
-                      type='submit'>
-                      <span>ویرایش</span>
-                      <Icon icon="iconamoon:edit-bold" />
-                    </button>
-                }
-
-
-                <button
-                  type='button'
-                  onClick={() => handleDeleteSimCardClick(record)}
-                  className='delete'>
-                  حذف
-                  <Icon icon="iconamoon:edit-bold" />
-                </button>
-
-
-                <button
-                  type='button'
-                  className={`status status-${record.isActivated}`}
-                  onClick={() => {
-                    put(ADMIN_PANEL.SIM_CARDS.PUT, {
-                      simCardID: record._id,
-                      isActivated: !record.isActivated
-                    }).then(res => refresh())
-                  }}>
-
-                  {
-                    record.isActivated ?
-                      <>
-                        نمایش
-                        <Icon icon="eos-icons:system-ok" />
-                      </>
-                      :
-                      <>
-                        پنهان
-                        <Icon icon="material-symbols:do-not-touch" />
-                      </>
-
-                  }
-                </button>
-              </div>
-
-            </div>
-          </Property>
-
-
-          <Property >
-            <div className="property-header">
-              {headersList[11]}
-            </div>
-            <div className="property-body">
-              <h2>
-                {index}
-              </h2>
-            </div>
-          </Property> */}
-
-
-
                 </Row>
               })
             }
