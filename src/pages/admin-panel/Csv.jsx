@@ -1,6 +1,6 @@
 import { Children, useState } from "react"
 import { ADMIN_PANEL } from "../../constants/API_URLS"
-import { post, put } from "../../libs/fetcher"
+import { downloadFile, get, post, put } from "../../libs/fetcher"
 import xlsxParser from 'xlsx-parse-json';
 
 
@@ -18,7 +18,7 @@ import PropertyDate from '../../components/table/components/PropertyDate';
 import PropertyBoolean from '../../components/table/components/PropertyBoolean';
 import ResponsivePagination from 'react-responsive-pagination';
 import { Icon } from "@iconify/react";
-import {logFormData} from "../../libs/formDataLogger"
+import { logFormData } from "../../libs/formDataLogger"
 
 
 export default function Csv() {
@@ -41,7 +41,7 @@ export default function Csv() {
       "type": "editable",
       "label": "خانه ای",
       "inputName": "khanaei",
-      "inputType": "number"
+      "inputType": "text"
     },
     {
       "type": "editable",
@@ -165,6 +165,8 @@ export default function Csv() {
 
   const [isRowEditing, setIsRowEditing] = useState(true)
 
+  const [submitForm, setSubmitForm] = useState(undefined)
+
 
 
   const onSelectFileInputChange = async (e) => {
@@ -221,18 +223,36 @@ export default function Csv() {
 
   const handleRowSubmit = (e) => {
     e.preventDefault()
-    alert("ok")
   }
 
 
-  const handleUploadFileSubmitClick = (e) => {
-    e.preventDefault()
-    logFormData(e.target)
+  const onSubmitFileClick = (e) => {
+    if (submitForm === undefined)
+      setSubmitForm(true)
+    else {
+      setSubmitForm(!submitForm)
+    }
   }
 
 
+  function downloadBase64File(contentType, base64Data, fileName) {
+    const linkSource = `data:${contentType};base64,${base64Data}`;
+    const downloadLink = document.createElement("a");
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
+  }
 
+  const handleDownloadXlsxClick = () => {
+    downloadFile(ADMIN_PANEL.XLSX.EXPORT_FILE.GET)
+      .then(response => {
+        const contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        const base64Data = response;
+        downloadBase64File(contentType, base64Data, 'output.xlsx');
+      }).catch(err => {
+      })
 
+  }
 
 
 
@@ -243,13 +263,17 @@ export default function Csv() {
       <div className="controll-box">
         <div className="box">
           <span>دریافت اطلاعات</span>
-          <button className="download">
+          <button
+            className="download"
+            onClick={handleDownloadXlsxClick}>
             دانلود
             <Icon icon="material-symbols:download" />
           </button>
+
+
         </div>
 
-        <form className="box" onSubmit={handleUploadFileSubmitClick}>
+        <div className="box" >
           <span>آپلود اطلاعات</span>
           <div className="upload">
             اپلود
@@ -261,14 +285,19 @@ export default function Csv() {
             />
             <Icon icon="material-symbols:upload" />
           </div>
-          {importFile.length !== 0 && <button
-            className="submit">
-            <Icon icon="el:ok" />
-            <span>
-              ثبت
-            </span>
-          </button>}
-        </form>
+          {
+            importFile.length !== 0 &&
+            <button
+              onClick={onSubmitFileClick}
+              className="submit">
+              <Icon icon="el:ok" />
+              <span>
+                ثبت
+              </span>
+            </button>
+          }
+
+        </div>
       </div>
 
 
@@ -276,7 +305,6 @@ export default function Csv() {
 
 
         <Table
-
           columnsStyle={
             `6rem 15ch 20ch  10rem 
      15rem 15rem 10rem 10rem 10rem
@@ -306,7 +334,7 @@ export default function Csv() {
 
                 return <Row
                   onSubmit={handleRowSubmit}
-                  // forceSubmit={}
+                  forceSubmit={submitForm}
                   key={rowIndex}  >
                   {
                     headersList.map((item, index) => {

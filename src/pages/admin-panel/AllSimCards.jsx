@@ -247,7 +247,6 @@ export default function AllSimCards() {
     e.preventDefault()
     const formData = new FormData(e.target)
 
-    logFormData(e.target)
     post(ADMIN_PANEL.SIM_CARDS.POST, formData)
       .then(resp => {
         console.log(resp)
@@ -283,10 +282,10 @@ export default function AllSimCards() {
         <Table
 
           columnsStyle={
-            `6rem 15ch 20ch  10rem 
+            `6rem 17ch 20ch  10rem 
              15rem 15rem 10rem 10rem 10rem
              10rem 10rem 10rem 10rem 10rem 
-             8rem 10rem 10rem  10rem 10rem `}>
+             10rem 10rem 10rem  10rem 10rem `}>
 
 
 

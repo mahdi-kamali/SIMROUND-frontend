@@ -19,6 +19,7 @@ export default function PropertyBoolean({
       </div>
 
       <div className="property-body icon">
+
         {
           isCheckBox ? <Switch
             onChange={
@@ -27,6 +28,7 @@ export default function PropertyBoolean({
               }
             }
             checked={state}
+            name={inputName}
           /> : <Switch
             onChange={onChange}
             checked={defaultValue}

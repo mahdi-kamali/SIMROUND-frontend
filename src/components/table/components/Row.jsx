@@ -13,15 +13,15 @@ const Row = (
 
 
     useEffect(() => {
-        if (forceSubmit) {
-            console.log(formRef.current)
+        if (forceSubmit !== undefined) {
+            formRef.current.requestSubmit();
         }
     }, [forceSubmit])
 
 
     return (
         <form
-            ref={forceSubmit}
+            ref={formRef}
             onSubmit={onSubmit}
             className={`row`}>
             {
