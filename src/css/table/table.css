@@ -41,6 +41,31 @@
   gap: 1rem;
   border-bottom: 2px dashed rgba(0, 0, 0, 0.2);
   padding-bottom: 1em;
+  transition: all 1s ease;
+}
+.table .table-body .row .error-box {
+  background-color: red;
+  width: -moz-max-content;
+  width: max-content;
+  color: white;
+  padding: 0.5em;
+  border-radius: 1rem;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.table .table-body .row .error-box li {
+  list-style-type: disc;
+}
+.table .table-body .row .success-box {
+  background-color: gold;
+  width: -moz-max-content;
+  width: max-content;
+  color: black;
+  padding: 0.5em;
+  border-radius: 1rem;
+  font-size: 1rem;
 }
 .table .table-body .row .property {
   display: flex;
@@ -110,7 +135,8 @@
   border: unset !important;
   opacity: 1 !important;
 }
-.table .table-body .row .property input[type=text], .table .table-body .row .property input[type=number] {
+.table .table-body .row .property input[type=text],
+.table .table-body .row .property input[type=number] {
   all: unset;
   width: 80%;
   border-radius: 0.5rem;
@@ -120,7 +146,8 @@
 .table .table-body .row .property input[type=text]:-moz-read-only, .table .table-body .row .property input[type=number]:-moz-read-only {
   border: none !important;
 }
-.table .table-body .row .property input[type=text]:read-only, .table .table-body .row .property input[type=number]:read-only {
+.table .table-body .row .property input[type=text]:read-only,
+.table .table-body .row .property input[type=number]:read-only {
   border: none !important;
 }
 .table .table-body .row .property input[type=checkbox] {

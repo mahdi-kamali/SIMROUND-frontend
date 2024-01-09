@@ -19,6 +19,8 @@ import PropertyBoolean from '../../components/table/components/PropertyBoolean';
 import ResponsivePagination from 'react-responsive-pagination';
 import { Icon } from "@iconify/react";
 import { logFormData } from "../../libs/formDataLogger"
+import { formToJSON } from "axios";
+import { showError, showSuccess } from "../../libs/alertHandler";
 
 
 export default function Csv() {
@@ -31,6 +33,13 @@ export default function Csv() {
       "inputName": "_id",
       "inputType": "text"
     },
+    {
+      "type": "readOnly",
+      "label": "شمارنده",
+      "inputName": "index",
+      "inputType": "index"
+    },
+
     {
       "type": "editable",
       "label": "شماره تلفن",
@@ -168,10 +177,52 @@ export default function Csv() {
   const [submitForm, setSubmitForm] = useState(undefined)
 
 
+  const [tempFile, setTempFile] = useState([])
+  const [results, setResults] = useState([])
+
+
+
+
+
+  const handleRowSubmit = (e) => {
+    e.preventDefault()
+  }
+
+
+
+
+
+  const onSubmitFileClick = (e) => {
+    const rows = Array.from(document.querySelector(".table").querySelectorAll("form")).map(form => {
+      return formToJSON(form)
+    })
+
+
+
+    post(ADMIN_PANEL.XLSX.IMPORT.POST, rows)
+      .then(resp => {
+        const failedRecord = resp.filter(item => item.status === "failed")
+        if (failedRecord.length === 0)
+          showSuccess("موفق", "همه ی رکوردهای شما اضافه شد")
+
+
+        setResults(resp)
+
+      })
+      .catch(err => {
+        showError("خطا", err)
+      })
+
+  }
+
+
+
+
 
   const onSelectFileInputChange = async (e) => {
 
     const file = e.target.files[0]
+    setResults([])
 
     if (file) {
       const data = await xlsxParser
@@ -200,7 +251,7 @@ export default function Csv() {
               maxGhestCount: item.max_ghest,
               pish: item.pish,
               label: item.label ? item.label : "تعریف نشده",
-              vaziat: vaziatHeader.options[item.vaziat].value,
+              vaziat: vaziatHeader?.options[item.vaziat]?.value,
               operatorName: operatorNameHeader.options[item.operator - 1]?.value,
               khanaei: item.khanaei
             }
@@ -221,18 +272,8 @@ export default function Csv() {
 
 
 
-  const handleRowSubmit = (e) => {
-    e.preventDefault()
-  }
 
 
-  const onSubmitFileClick = (e) => {
-    if (submitForm === undefined)
-      setSubmitForm(true)
-    else {
-      setSubmitForm(!submitForm)
-    }
-  }
 
 
   function downloadBase64File(contentType, base64Data, fileName) {
@@ -255,6 +296,7 @@ export default function Csv() {
   }
 
 
+  console.log(results)
 
   return (
     <main className="admin-panel-csv">
@@ -306,7 +348,7 @@ export default function Csv() {
 
         <Table
           columnsStyle={
-            `6rem 15ch 20ch  10rem 
+            `6rem 15ch 20ch 10rem  10rem 
      15rem 15rem 10rem 10rem 10rem
      10rem 10rem 10rem 10rem 10rem 
      8rem 10rem  10rem  10rem`}>
@@ -331,10 +373,18 @@ export default function Csv() {
 
             {
               importFile.map((record, rowIndex) => {
+                const isFailedRecord = results.find(item => item.index === rowIndex && item.status === "failed")
+
+                const isSuccessRecord = results.find(item => item.index === rowIndex && item.status === "success")
+
+
+
 
                 return <Row
                   onSubmit={handleRowSubmit}
                   forceSubmit={submitForm}
+                  hasError={isFailedRecord}
+                  hasSuccess={isSuccessRecord}
                   key={rowIndex}  >
                   {
                     headersList.map((item, index) => {
@@ -345,6 +395,17 @@ export default function Csv() {
                           headerTitle={item.label}
                           inputName={item.inputName}
                           inputType={item.inputType}
+                          isRowEditing={item.type == "readOnly" ? false : isRowEditing}
+                        />
+                      }
+
+                      if (item.inputType === "index") {
+                        return <PropertyText
+                          key={index}
+                          defaultValue={rowIndex + 1}
+                          headerTitle={item.label}
+                          inputName={item.inputName}
+                          inputType={"text"}
                           isRowEditing={item.type == "readOnly" ? false : isRowEditing}
                         />
                       }
@@ -397,6 +458,7 @@ export default function Csv() {
                           isRowEditing={item.type == "readOnly" ? false : isRowEditing}
                         />
                       }
+
 
 
                     })

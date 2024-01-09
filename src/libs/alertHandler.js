@@ -11,13 +11,11 @@ export async function showSuccess(header, body) {
 }
 
 export function showError(header, body) {
-  console.log(body);
-
   Swal.fire({
     icon: "error",
     title: header,
     html: body.map((err) => {
       return `<p>${err} </p>`;
-    })
+    }),
   });
 }

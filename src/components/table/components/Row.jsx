@@ -6,10 +6,14 @@ const Row = (
     {
         children,
         onSubmit,
-        forceSubmit
+        forceSubmit,
+        hasError = undefined,
+        hasSuccess = undefined,
     }) => {
 
     const formRef = useRef()
+
+
 
 
     useEffect(() => {
@@ -19,13 +23,37 @@ const Row = (
     }, [forceSubmit])
 
 
+    console.log(hasError)
+
+
     return (
         <form
             ref={formRef}
             onSubmit={onSubmit}
-            className={`row`}>
+            className={`row has-${hasError && "error"}`}>
             {
                 children
+            }
+
+            {
+                hasError && <h1
+                    key={Math.random()}
+                    className='error-box'
+                    style={{
+                        gridColumn: "-1/1"
+                    }}>{hasError?.reason.map((item,index)=>{
+                        return <li key={index}>{item}</li>
+                    })}</h1>
+            }
+
+
+            {
+                hasSuccess && <h1
+                    key={Math.random()}
+                    className='success-box'
+                    style={{
+                        gridColumn: "-1/1"
+                    }}>{hasSuccess?.reason}</h1>
             }
         </form>
     )

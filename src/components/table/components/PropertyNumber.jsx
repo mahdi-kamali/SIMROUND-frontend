@@ -13,6 +13,7 @@ export default function PropertyNumber({
             </div>
             <div className="property-body">
                 <input
+                    min={0}
                     readOnly={!isRowEditing}
                     type={inputType}
                     name={inputName}
